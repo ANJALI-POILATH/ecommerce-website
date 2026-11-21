@@ -1,7 +1,7 @@
 // ORBIT public Firebase web configuration. Do not put service-account secrets here.
 const CONFIG = {
   PROJECT_ID: 'ecommerce-website-16a79',
-  API_KEY: 'AIzaSyDOgss7O3-ZgCiBjusoZWFZJOtARvx57ZQ',
+  API_KEY: '',
   STORAGE_BUCKET: 'ecommerce-website-16a79.firebasestorage.app',
   // Only verified administrator UIDs belong here. Add the second admin UID
   // after checking it in Firebase Console → Authentication → Users.
