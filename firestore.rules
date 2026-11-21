@@ -1,0 +1,58 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() { return request.auth != null; }
+    function isAdmin() {
+      return signedIn() && request.auth.uid in [
+        'D1KXTtvfbRcN1YZz4DDT1h2pHYh2'
+        // Add the second administrator UID here only after verifying it
+        // in Firebase Console → Authentication → Users.
+      ];
+    }
+    match /products/{productId} {
+      allow read: if true;
+      allow create, delete: if isAdmin();
+      allow update: if isAdmin() || (signedIn() &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['quantity']) &&
+        request.resource.data.quantity >= 0 &&
+        request.resource.data.quantity <= resource.data.quantity);
+    }
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /customers/{customerId} {
+      allow read: if isAdmin() || (signedIn() && request.auth.uid == customerId);
+      allow create: if isAdmin() || (signedIn() && request.auth.uid == customerId && request.resource.data.email == request.auth.token.email);
+      allow update: if isAdmin() || (signedIn() && request.auth.uid == customerId &&
+        request.resource.data.diff(resource.data).affectedKeys().hasOnly(['creditUsed']) &&
+        request.resource.data.creditUsed >= resource.data.creditUsed);
+      allow delete: if isAdmin();
+    }
+    match /carts/{customerId} {
+      allow read, write: if isAdmin() || (signedIn() && request.auth.uid == customerId);
+    }
+    match /carts/{customerId}/{document=**} {
+      allow read, write: if isAdmin() || (signedIn() && request.auth.uid == customerId);
+    }
+    match /orders/{orderId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.customerId == request.auth.uid);
+      allow create: if isAdmin() || (signedIn() && request.resource.data.customerId == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+    match /sales/{saleId} {
+      allow read: if isAdmin();
+      allow create: if signedIn() && request.resource.data.customerId == request.auth.uid;
+      allow update, delete: if isAdmin();
+    }
+    match /mails/{mailId} {
+      allow read: if isAdmin() || (signedIn() && resource.data.to == request.auth.token.email);
+      allow create: if signedIn() && request.resource.data.to == request.auth.token.email;
+      allow update, delete: if isAdmin();
+    }
+    match /settings/{settingId} {
+      allow read: if signedIn();
+      allow write: if isAdmin();
+    }
+  }
+}

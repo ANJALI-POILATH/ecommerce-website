@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Admin Console · ORBIT</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="css/orbit.css"></head>
+<body class="locked">
+<div class="gate" id="gate">
+  <div style="width:100%;display:flex;flex-direction:column;align-items:center;margin:auto">
+    <div class="auth-logo"><a class="logo" href="index.html" id="gateLogo"></a></div>
+    <form class="auth-box" id="gateForm" novalidate>
+      <h1>Admin sign in</h1><p class="lead">Use your authorised administrator account.</p><div id="gmsg"></div>
+      <label for="ae">Admin email</label><input id="ae" type="email" autocomplete="username" required>
+      <label for="ap">Password</label><input id="ap" type="password" autocomplete="current-password" required>
+      <button class="btn gold auth-submit" id="alogin">Sign in</button>
+      <p class="auth-legal"><a href="index.html">← Back to the shop</a></p>
+    </form>
+  </div>
+</div>
+<div class="admin">
+  <nav class="side" aria-label="Admin">
+    <a class="logo" href="index.html" id="sideLogo"></a><div class="sub">Admin console</div>
+    <a data-v="dashboard" href="#dashboard">Dashboard</a><a data-v="inventory" href="#inventory">Inventory</a><a data-v="categories" href="#categories">Categories</a>
+    <a data-v="customers" href="#customers">Customers &amp; credit</a><a data-v="orders" href="#orders">Orders</a><a data-v="reports" href="#reports">Reports</a>
+    <a href="index.html" class="push">View shop</a><button class="navbtn" id="themeToggle" title="Toggle theme">☀ Light mode</button><button class="navbtn" id="logout">Sign out</button>
+  </nav>
+  <section class="content" id="view"></section>
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios@1.7.9/dist/axios.min.js"></script>
+<script src="js/config.js"></script><script src="js/common.js"></script><script src="js/admin.js"></script>
+</body></html>
